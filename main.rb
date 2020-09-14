@@ -1,4 +1,3 @@
-require './MaxSat'
 require './ScrapePenguin'
 require './ConvertCrow'
 require './SolveSwallow'
