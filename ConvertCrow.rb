@@ -1,3 +1,4 @@
+require 'json'
 class ConvertCrow
   def initialize(fish)
     @crow = Crow.new(fish)
@@ -10,8 +11,8 @@ class ConvertCrow
   end
 
   def decode(result)
-    @crow.to_timetable(result)
-    @crow.print_timetable
+    JSON.generate(@crow.to_timetable(result))
+    #@crow.print_timetable
   end
 
 
@@ -114,8 +115,8 @@ class ConvertCrow
     end
 
     def to_timetable(result)
-      @timetable = []
-      result.each do |e|
+      @timetable = {}
+      result.each_with_index do |e,i|
         if e.to_i > 0
           day = ""
           cls_name = ""
@@ -126,25 +127,26 @@ class ConvertCrow
             day = @table.key(e.to_i%40).to_s
             cls_name = @fish[(e.to_i)/40][:class]
           end
-          @timetable.append([cls_name, day, @table[day.to_sym]])
+          @timetable["Lecture#{i}"] = {"name" => cls_name, "period_id" => @table[day.to_sym]-1} 
         end
       end
+      @timetable
     end
 
-    def print_timetable
-      @timetable.sort_by!{|x| x[2]}
-      table_counter = 0
-      40.times do |i|
-        class_name = ""
-        #p @timetable
-        if @timetable[table_counter] != nil && @timetable[table_counter][2] == i+1
-          class_name = @timetable[table_counter][0]
-          table_counter+=1
-        else
-          class_name = "-"
-        end
-        puts "#{@table.key(i+1).to_s} : #{class_name}"
-      end
-    end
+    #def print_timetable
+    #  @timetable.sort_by!{|x| x[2]}
+    #  table_counter = 0
+    #  40.times do |i|
+    #    class_name = ""
+    #    #p @timetable
+    #    if @timetable[table_counter] != nil && @timetable[table_counter][2] == i+1
+    #      class_name = @timetable[table_counter][0]
+    #      table_counter+=1
+    #    else
+    #      class_name = "-"
+    #    end
+    #    puts "#{@table.key(i+1).to_s} : #{class_name}"
+    #  end
+    #end
   end
 end

@@ -2,7 +2,7 @@ require './ScrapePenguin'
 require './ConvertCrow'
 require './SolveSwallow'
 #scraping
-driver = ScrapePenguin.new('理学部','数学科','第１学期')
+driver = ScrapePenguin.new('工学部','電気通信系学科','第2学期')
 driver.search
 driver.parse
 driver.class_list
@@ -13,4 +13,8 @@ converter.encode
 solver = SolveSwallow.new
 solver.solve
 #decode
-converter.decode(solver.result)
+json = converter.decode(solver.result)
+File.open("output.json","w") do |f|
+  f.write(json)
+end
+system("ruby timetable.rb")
