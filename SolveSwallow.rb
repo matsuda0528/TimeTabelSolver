@@ -16,7 +16,7 @@ class SolveSwallow
     end
 
     def call_maxsat
-      system("maxsat output.wcnf > output.result")
+      system("qmaxsat0.1 output.wcnf > output.result")
     end
 
     def parse_output
