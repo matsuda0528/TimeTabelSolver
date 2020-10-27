@@ -1,13 +1,16 @@
 require './ScrapePenguin'
 require './ConvertCrow'
 require './SolveSwallow'
+require 'json'
 #scraping
-driver = ScrapePenguin.new('工学部','電気通信系学科','第2学期')
-driver.search
-driver.parse
-driver.class_list
+class_list = []
+File.open(ARGV[0],"r") do |f|
+  f.each_line{|line|
+    class_list.append JSON.parse(line)
+  }
+end
 #encode
-converter = ConvertCrow.new(driver.class_list)
+converter = ConvertCrow.new(class_list)
 converter.encode
 #maxsat
 solver = SolveSwallow.new
@@ -17,4 +20,3 @@ json = converter.decode(solver.result)
 File.open("output.json","w") do |f|
   f.write(json)
 end
-system("ruby timetable.rb")

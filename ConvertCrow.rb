@@ -86,7 +86,7 @@ class ConvertCrow
 
       #１つの授業がもつコマはすべて埋まる（すべて埋まらない）
       @fish.each_with_index do |e,i|
-        e[:date_and_time].split(",").combination(2).each do |l|
+        e["date_and_time"].split(",").combination(2).each do |l|
           @cnf_list.append(@hclauses_weight.to_s + " " + (@table[l[0].to_sym]+i*40).to_s + " -" + (@table[l[1].to_sym]+i*40).to_s + " " + 0.to_s)
           @clauses+=1
           @cnf_list.append(@hclauses_weight.to_s + " " + (@table[l[1].to_sym]+i*40).to_s + " -" + (@table[l[0].to_sym]+i*40).to_s + " " + 0.to_s)
@@ -98,7 +98,7 @@ class ConvertCrow
     def gen_sclauses
       #受講可能な授業
       @fish.each_with_index do |e,i|
-        e[:date_and_time].split(",").each do |l|
+        e["date_and_time"].split(",").each do |l|
           @cnf_list.append(1.to_s + " " + (@table[l.to_sym]+i*40).to_s + " " + 0.to_s)
           @clauses+=1
         end
@@ -122,10 +122,10 @@ class ConvertCrow
           cls_name = ""
           if e.to_i%40 == 0
             day = @table.key(40).to_s
-            cls_name = @fish[(e.to_i)/40-1][:class]
+            cls_name = @fish[(e.to_i)/40-1]["class"]
           else
             day = @table.key(e.to_i%40).to_s
-            cls_name = @fish[(e.to_i)/40][:class]
+            cls_name = @fish[(e.to_i)/40]["class"]
           end
           @timetable["Lecture#{i}"] = {"name" => cls_name, "period_id" => @table[day.to_sym]-1} 
         end

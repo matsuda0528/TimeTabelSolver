@@ -11,19 +11,19 @@ class ScrapePenguin
   def search
     @penguin.get('https://kyomu.adm.okayama-u.ac.jp/Portal/Public/Syllabus/SearchMain.aspx')
     faculty = @penguin.find_element(:name,'ctl00$phContents$ddl_fac')
-    faculty.send_key(@fac);sleep 3
+    faculty.send_key(@fac);sleep 5
 
     department = @penguin.find_element(:name,'ctl00$phContents$ddl_dpt')
-    department.send_keys(@dpt);sleep 3
+    department.send_keys(@dpt);sleep 5
 
     term = @penguin.find_element(:name,'ctl00$phContents$ddl_lctterm')
-    term.send_keys(@trm);sleep 3
+    term.send_keys(@trm);sleep 5
 
     submit = @penguin.find_element(:name,'ctl00$phContents$ctl18$btnSearch')
-    submit.click;sleep 3
+    submit.click;sleep 5
     
     lines = @penguin.find_element(:name,'ctl00$phContents$ucGrid$ddlLines')
-    lines.send_keys('全件');sleep 3
+    lines.send_keys('全件');sleep 5
     
     contents = @penguin.find_element(:id, 'ctl00_phContents_ucGrid_grv')
     @fish = contents.text
@@ -39,7 +39,7 @@ class ScrapePenguin
 
     @fish.each do |e|
       next if e[-2] == 'その他'
-      @hashed_fish << {class: e[4], date_and_time: e[-2]}
+      @hashed_fish << {"class" => e[4], "date_and_time" => e[-2]}
     end
   end
 
